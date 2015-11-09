@@ -42,6 +42,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>AssemblyLoading\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
+    <Reference Include="LibGit2Sharp, Version=0.21.0.176, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>AssemblyLoading\LibGit2Sharp.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.1.2.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>AssemblyLoading\MahApps.Metro.dll</HintPath>
@@ -74,6 +78,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddRepositoryDialog.xaml.cs">
+      <DependentUpon>AddRepositoryDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Repository.cs" />
+    <Compile Include="RepositoryManager.cs" />
+    <Compile Include="RepositoryServer.cs" />
+    <Page Include="AddRepositoryDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DarkTitleBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -125,6 +139,9 @@
     <EmbeddedResource Include="AssemblyLoading\Microsoft.WindowsAPICodePack.dll" />
     <EmbeddedResource Include="AssemblyLoading\Microsoft.WindowsAPICodePack.Shell.dll" />
     <EmbeddedResource Include="AssemblyLoading\System.Windows.Interactivity.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AssemblyLoading\LibGit2Sharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

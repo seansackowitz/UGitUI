@@ -59,6 +59,9 @@ namespace UGitUI
         {
             AddRepositoryDialog d = new AddRepositoryDialog();
             this.ShowMetroDialogAsync(d);
+            RoutedEventHandler close = delegate (object s, RoutedEventArgs args) { this.HideMetroDialogAsync(d); };
+            d.accept.Click += close;
+            d.cancel.Click += close;
         }
     }
 }

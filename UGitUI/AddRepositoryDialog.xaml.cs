@@ -16,14 +16,16 @@ using System.Windows.Shapes;
 
 namespace UGitUI
 {
-    /// <summary>
-    /// Interaction logic for AddRepositoryDialog.xaml
-    /// </summary>
     public partial class AddRepositoryDialog : BaseMetroDialog
     {
         public AddRepositoryDialog()
         {
             InitializeComponent();
+        }
+
+        private void accept_Click(object sender, RoutedEventArgs e)
+        {
+            RepositoryManager.AddRepository(directory.Text, url.Text);
         }
     }
 }

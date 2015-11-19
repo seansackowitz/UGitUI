@@ -15,8 +15,8 @@
                 <Button x:Name="browse" Margin="5,0,0,0" Content="Browse" HorizontalAlignment="Right" Width="65"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-                <Button x:Name="accept" Margin="0,0,5,0" Content="Clone" HorizontalAlignment="Right" Width="65"/>
-                <Button x:Name="cancel" Margin="5,0,0,0" Content="Cancel" HorizontalAlignment="Right" Width="65"/>
+                <Button x:Name="accept" x:FieldModifier="public" Margin="0,0,5,0" Content="Clone" HorizontalAlignment="Right" Width="65" Click="accept_Click"/>
+                <Button x:Name="cancel" x:FieldModifier="public" Margin="5,0,0,0" Content="Cancel" HorizontalAlignment="Right" Width="65"/>
             </StackPanel>
         </StackPanel>
     </Grid>

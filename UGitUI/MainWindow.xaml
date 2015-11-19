@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UGitUI"
         mc:Ignorable="d"
-        Title="Code Snapshot" Height="720" Width="1280" TitleCaps="False" Background="{DynamicResource WindowTitleColorBrush}" Loaded="MetroWindow_Loaded">
+        Title="Universal Git UI" Height="720" Width="1280" TitleCaps="False" Background="{DynamicResource WindowTitleColorBrush}" Loaded="MetroWindow_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="180*"/>

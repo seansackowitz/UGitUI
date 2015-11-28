@@ -8,16 +8,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="1280">
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="460">
-        <StackPanel>
-            <TextBox x:Name="url" Height="22" TextWrapping="NoWrap" Margin="0,5" Style="{StaticResource placeHolder}" Tag="Clone URL"/>
+        <StackPanel Margin="0,20">
             <StackPanel Margin="0,5" Orientation="Horizontal">
-                <TextBox x:Name="directory" Height="22" Margin="0,0,5,0" TextWrapping="NoWrap" Style="{StaticResource placeHolder}" Tag="Clone Directory" Width="385"/>
-                <Button x:Name="browse" Margin="5,0,0,0" Content="Browse" HorizontalAlignment="Right" Width="65"/>
+                <TextBox x:Name="username" Height="22" Margin="0,0,5,0" TextWrapping="NoWrap" Style="{StaticResource placeHolder}" Tag="Username" Width="225" TabIndex="0"/>
+                <TextBox x:Name="password" Height="22" Margin="5,0,0,0" TextWrapping="NoWrap" Style="{StaticResource placeHolder}" Tag="Password" Width="225" TabIndex="1"/>
+            </StackPanel>
+            <TextBox x:Name="url" Height="22" TextWrapping="NoWrap" Margin="0,5" Style="{StaticResource placeHolder}" Tag="Clone URL" TabIndex="3"/>
+            <StackPanel Margin="0,5" Orientation="Horizontal">
+                <TextBox x:Name="directory" Height="22" Margin="0,0,5,0" TextWrapping="NoWrap" Style="{StaticResource placeHolder}" Tag="Clone Directory" Width="385" TabIndex="4"/>
+                <Button x:Name="browse" Margin="5,0,0,0" Content="Browse" HorizontalAlignment="Right" Width="65" Click="browse_Click"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-                <Button x:Name="accept" x:FieldModifier="public" Margin="0,0,5,0" Content="Clone" HorizontalAlignment="Right" Width="65" Click="accept_Click"/>
-                <Button x:Name="cancel" x:FieldModifier="public" Margin="5,0,0,0" Content="Cancel" HorizontalAlignment="Right" Width="65"/>
+                <Button x:Name="accept" x:FieldModifier="public" Margin="0,0,5,0" Content="Clone" HorizontalAlignment="Right" Width="65" Click="accept_Click" IsDefault="True"/>
+                <Button x:Name="cancel" x:FieldModifier="public" Margin="5,0,0,0" Content="Cancel" HorizontalAlignment="Right" Width="65" IsCancel="True"/>
             </StackPanel>
+            <ProgressBar x:Name="progressBar" x:FieldModifier="public" Visibility="Hidden"/>
         </StackPanel>
     </Grid>
 </Dialogs:BaseMetroDialog>

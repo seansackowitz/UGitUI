@@ -86,14 +86,21 @@
     <Compile Include="AddRepositoryDialog.xaml.cs">
       <DependentUpon>AddRepositoryDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IsEnabledConv.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="RepositoryManager.cs" />
     <Compile Include="RepositoryServer.cs" />
+    <Compile Include="WatermarkAdorner.cs" />
+    <Compile Include="WatermarkService.cs" />
     <Page Include="AddRepositoryDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DarkTitleBar.xaml">
+    <Page Include="CustomStyles\TreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomStyles\DarkTitleBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

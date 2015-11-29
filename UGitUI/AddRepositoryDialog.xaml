@@ -10,19 +10,54 @@
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="460">
         <StackPanel Margin="0,20">
             <StackPanel Margin="0,5" Orientation="Horizontal">
-                <TextBox x:Name="username" Height="22" Margin="0,0,5,0" TextWrapping="NoWrap" Style="{StaticResource placeHolder}" Tag="Username" Width="225" TabIndex="0"/>
-                <TextBox x:Name="password" Height="22" Margin="5,0,0,0" TextWrapping="NoWrap" Style="{StaticResource placeHolder}" Tag="Password" Width="225" TabIndex="1"/>
+                <AdornerDecorator>
+                    <TextBox x:Name="username" Height="22" Margin="0,0,5,0" TextWrapping="NoWrap" Width="225" TabIndex="0">
+                        <local:WatermarkService.Watermark>
+                            <TextBox Text="Username"/>
+                        </local:WatermarkService.Watermark>
+                    </TextBox>
+                </AdornerDecorator>
+                <AdornerDecorator>
+                    <PasswordBox x:Name="password" Height="22" Margin="5,0,0,0" Width="225" TabIndex="1">
+                        <local:WatermarkService.Watermark>
+                            <TextBox Text="Password" Margin="-5,0,0,0"/>
+                        </local:WatermarkService.Watermark>
+                    </PasswordBox>
+                </AdornerDecorator>
             </StackPanel>
-            <TextBox x:Name="url" Height="22" TextWrapping="NoWrap" Margin="0,5" Style="{StaticResource placeHolder}" Tag="Clone URL" TabIndex="3"/>
-            <StackPanel Margin="0,5" Orientation="Horizontal">
-                <TextBox x:Name="directory" Height="22" Margin="0,0,5,0" TextWrapping="NoWrap" Style="{StaticResource placeHolder}" Tag="Clone Directory" Width="385" TabIndex="4"/>
-                <Button x:Name="browse" Margin="5,0,0,0" Content="Browse" HorizontalAlignment="Right" Width="65" Click="browse_Click"/>
+            <AdornerDecorator>
+                <TextBox x:Name="url" Height="22" TextWrapping="NoWrap" Margin="0,5" TabIndex="3">
+                    <local:WatermarkService.Watermark>
+                        <TextBox Text="Clone Url" Margin="0,-5,0,0"/>
+                    </local:WatermarkService.Watermark>
+                </TextBox>
+            </AdornerDecorator>
+            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                <AdornerDecorator>
+                    <TextBox x:Name="directory" Height="22" Margin="0,0,5,0" TextWrapping="NoWrap" Width="385" TabIndex="4">
+                        <local:WatermarkService.Watermark>
+                            <TextBox x:Name="directory2" Text="Clone Directory"/>
+                        </local:WatermarkService.Watermark>
+                    </TextBox>
+                </AdornerDecorator>
+                <Button x:Name="browse" Margin="5,0,0,0" Content="Browse" Width="65" Click="browse_Click"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-                <Button x:Name="accept" x:FieldModifier="public" Margin="0,0,5,0" Content="Clone" HorizontalAlignment="Right" Width="65" Click="accept_Click" IsDefault="True"/>
-                <Button x:Name="cancel" x:FieldModifier="public" Margin="5,0,0,0" Content="Cancel" HorizontalAlignment="Right" Width="65" IsCancel="True"/>
+            <StackPanel Orientation="Horizontal" Width="Auto" Margin="0,0,0,0" HorizontalAlignment="Stretch">
+                <Label x:Name="warning" x:FieldModifier="public" Margin="0,5,5,5" Width="310" Content=""/>
+                <Button x:Name="accept" x:FieldModifier="public" Margin="5,20,5,5" Content="Clone" Width="65" Click="accept_Click" IsDefault="True">
+                    <Button.Resources>
+                        <local:IsEnabledConv x:Key="isEnabledConv" />
+                    </Button.Resources>
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource isEnabledConv}">
+                            <Binding ElementName="url" Path="Text.Length" />
+                            <Binding ElementName="directory" Path="Text.Length" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+                <Button x:Name="cancel" x:FieldModifier="public" Margin="5,20,0,5" Content="Cancel" Width="65" IsCancel="True"/>
             </StackPanel>
-            <ProgressBar x:Name="progressBar" x:FieldModifier="public" Visibility="Hidden"/>
+            <ProgressBar x:Name="progressBar" x:FieldModifier="public" Visibility="Hidden" Height="5"/>
         </StackPanel>
     </Grid>
 </Dialogs:BaseMetroDialog>

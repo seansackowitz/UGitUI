@@ -20,14 +20,32 @@ namespace UGitUI
 {
     public partial class MainWindow : MetroWindow
     {
+        public static MainWindow Instance;
+
+        public RoutedEventHandler refreshTreeView;
+
         public MainWindow()
         {
             InitializeComponent();
+            Instance = this;
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            refreshTreeView = delegate (object s, RoutedEventArgs args) {
+                RepositoryManager.TreeViewServers = new List<TreeViewItem>();
+                foreach (RepositoryServer repoServ in RepositoryManager.Servers)
+                    RepositoryManager.TreeViewServers.Add(repoServ.TreeItem);
+                treeView.ItemsSource = null;
+                treeView.ItemsSource = RepositoryManager.TreeViewServers;
+            };
+
+            RepositoryManager.LoadDataFile();
+            refreshTreeView(null, null);
+
+            //RepositoryManager.DeleteDirectory(@"Z:\Temporary Programming\GitTesting");
+            //RepositoryManager.AddRepository(@"Z:\Temporary Programming\GitTesting", @"http://git.roadturtlegames.com/Sean/UGitUI.git", "Sean", "keks49585", null);
+            //RepositoryManager.AddRepository(@"Z:\Temporary Programming\GitTesting", @"https://github.com/seansackowitz/Image-Manipulation.git", "seansackowitz", "keks49585", null);
         }
 
         private void treeView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -60,8 +78,15 @@ namespace UGitUI
             AddRepositoryDialog d = new AddRepositoryDialog();
             this.ShowMetroDialogAsync(d);
             RoutedEventHandler close = delegate (object s, RoutedEventArgs args) { this.HideMetroDialogAsync(d); };
-            //d.accept.Click += close;
+            d.EndDialog += close;
+            d.EndDialog += refreshTreeView;
             d.cancel.Click += close;
+        }
+
+        private void repositoryFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            treeView.Items.Filter = new Predicate<object>(x => ((RepositoryServer)x).HasMatchingRepository(repositoryFilter.Text));
+            treeView.Items.Refresh();
         }
     }
 }

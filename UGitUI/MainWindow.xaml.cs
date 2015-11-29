@@ -42,10 +42,6 @@ namespace UGitUI
 
             RepositoryManager.LoadDataFile();
             refreshTreeView(null, null);
-
-            //RepositoryManager.DeleteDirectory(@"Z:\Temporary Programming\GitTesting");
-            //RepositoryManager.AddRepository(@"Z:\Temporary Programming\GitTesting", @"http://git.roadturtlegames.com/Sean/UGitUI.git", "Sean", "keks49585", null);
-            //RepositoryManager.AddRepository(@"Z:\Temporary Programming\GitTesting", @"https://github.com/seansackowitz/Image-Manipulation.git", "seansackowitz", "keks49585", null);
         }
 
         private void treeView_ContextMenuOpening(object sender, ContextMenuEventArgs e)

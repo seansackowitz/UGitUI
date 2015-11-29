@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace UGitUI
         public string ItemName;
         public List<Repository> Repos = new List<Repository>();
         [NonSerialized]
-        public TreeViewItem TreeItem;
+        public TreeViewItem TreeItem = new TreeViewItem();
 
         public RepositoryServer(string url)
         {
@@ -44,6 +45,19 @@ namespace UGitUI
             TreeItem.Items.Filter = new Predicate<object>(i => ((Repository)((TreeViewItem)i).Tag).ToString().Contains(value));
             TreeItem.Items.Refresh();
             return TreeItem.Items.Cast<object>().Where(i => ((Repository)((TreeViewItem)i).Tag).ToString().Contains(value)).Count() > 0;
+        }
+
+        [OnDeserialized]
+        void PrepareTreeView(StreamingContext context)
+        {
+            TreeItem = new TreeViewItem();
+            TreeItem.Tag = this;
+            TreeItem.Focusable = false;
+            TreeItem.Header = ToString();
+            TreeItem.Style = (System.Windows.Style)TreeItem.FindResource("RepositoryServerStyle");
+
+            foreach (Repository repo in Repos)
+                TreeItem.Items.Add(repo.TreeItem);
         }
         
         public override string ToString()

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,10 +24,13 @@ namespace UGitUI
             InitializeComponent();
         }
 
+        public RoutedEventHandler EndDialog;
+
         private void accept_Click(object sender, RoutedEventArgs e)
         {
+            warning.Content = "";
             progressBar.Visibility = Visibility.Visible;
-            RepositoryManager.AddRepository(directory.Text, url.Text, username.Text, password.Text, progressBar);
+            RepositoryManager.AddRepository(directory.Text, url.Text, username.Text, password.Password, this);
         }
 
         private void browse_Click(object sender, RoutedEventArgs e)

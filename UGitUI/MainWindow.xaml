@@ -20,7 +20,13 @@
             <Button Name="addRepository" Grid.Row="0" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" Foreground="{DynamicResource toolBarButtonMouseLeave}" MouseEnter="button_MouseEnter" MouseLeave="button_MouseLeave" HorizontalAlignment="Left" Margin="10,1,1,0" BorderThickness="0" VerticalAlignment="Center" Click="addRepository_Click">
                 <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M75 0 V75 H0 V125 H75 V200 H125 V125 H200 V75 H125 V0 H75 z" Stretch="Fill"/>
             </Button>
-            <TextBox Name="repositoryFilter" Grid.Row="1" Style="{StaticResource placeHolder}" Tag="Filter Repositories" Height="26" VerticalAlignment="Center" Margin="10,0"/>
+            <AdornerDecorator Grid.Row="1" Height="26" VerticalAlignment="Center" Margin="10,0">
+                <TextBox Name="repositoryFilter" TextChanged="repositoryFilter_TextChanged">
+                    <local:WatermarkService.Watermark>
+                        <TextBox Text="Filter Repositories"/>
+                    </local:WatermarkService.Watermark>
+                </TextBox>
+            </AdornerDecorator>
         </Grid>
         <TreeView Name="treeView" Width="180" Margin="0,64,0,0" HorizontalAlignment="Left" Padding="0" RenderTransformOrigin="0,0" SelectedItemChanged="treeView_SelectedItemChanged" PreviewMouseRightButtonDown="treeView_PreviewMouseRightButtonDown" ContextMenuOpening="treeView_ContextMenuOpening" Background="{DynamicResource WindowTitleColorBrush}"/>
     </Grid>

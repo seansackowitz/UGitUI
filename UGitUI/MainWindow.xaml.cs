@@ -44,14 +44,9 @@ namespace UGitUI
 
             RepositoryManager.LoadDataFile();
             //RepositoryServer tempS = RepositoryManager.AddRepositoryServer(@"http://git.roadturtlegames.com/Sean/UGitUI.git");
-            //tempS.Add(new Repository("UGitUI", @"D:\Programming\Gitlab\UGitUI\.git"));
+            //tempS.Add(new Repository("UGitUI", @"E:\Programming\Gitlab\UGitUI\.git"));
             //RepositoryManager.SaveDataFile();
             refreshTreeView(null, null);
-            
-            //RepositoryManager.AddRepository(@"Z:\Temporary Programming\GitTesting", @"http://git.roadturtlegames.com/Sean/UGitUI.git", "Sean", "keks49585", null);
-            //RepositoryManager.AddRepository(@"Z:\Temporary Programming\GitTesting", @"https://github.com/seansackowitz/Image-Manipulation.git", "seansackowitz", "keks49585", null);
-            //RepositoryManager.AddRepository(@"Z:\Temporary Programming\GitTesting2", @"http://git.roadturtlegames.com/Sean/UGitUI.git", "Sean", "keks49585", null);
-            //RepositoryManager.AddRepository(@"Z:\Temporary Programming\GitTesting2", @"https://github.com/seansackowitz/Image-Manipulation.git", "seansackowitz", "keks49585", null);
         }
 
         private void treeView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -74,6 +69,13 @@ namespace UGitUI
                 foreach (TreeEntryChanges c in CurrentRepo.Repo.Diff.Compare<TreeChanges>(CurrentRepo.Repo.Head.Tip.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
                 {
                     Data.Text += c.Status + " : " + c.Path + "\n";
+                }
+
+                Data.Text += "\n\n";
+
+                foreach (var item in CurrentRepo.Repo.ObjectDatabase)
+                {
+                    Data.Text += item.Id + "\n";
                 }
             }
         }

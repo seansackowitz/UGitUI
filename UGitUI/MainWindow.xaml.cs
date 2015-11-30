@@ -24,6 +24,8 @@ namespace UGitUI
 
         public RoutedEventHandler refreshTreeView;
 
+        public Repository CurrentRepo;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -41,6 +43,9 @@ namespace UGitUI
             };
 
             RepositoryManager.LoadDataFile();
+            //RepositoryServer tempS = RepositoryManager.AddRepositoryServer(@"http://git.roadturtlegames.com/Sean/UGitUI.git");
+            //tempS.Add(new Repository("UGitUI", @"E:\Programming\Gitlab\UGitUI\.git"));
+            //RepositoryManager.SaveDataFile();
             refreshTreeView(null, null);
         }
 
@@ -56,7 +61,23 @@ namespace UGitUI
 
         private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
+            if (treeView.SelectedItem != null)
+            {
+                Data.Text = "";
+                CurrentRepo = ((Repository)((TreeViewItem)treeView.SelectedItem).Tag);
 
+                foreach (TreeEntryChanges c in CurrentRepo.Repo.Diff.Compare<TreeChanges>(CurrentRepo.Repo.Head.Tip.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
+                {
+                    Data.Text += c.Status + " : " + c.Path + "\n";
+                }
+
+                Data.Text += "\n\n";
+
+                foreach (var item in CurrentRepo.Repo.ObjectDatabase)
+                {
+                    Data.Text += item.Id + "\n";
+                }
+            }
         }
 
         private void button_MouseEnter(object sender, MouseEventArgs e)
@@ -81,7 +102,7 @@ namespace UGitUI
 
         private void repositoryFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
-            treeView.Items.Filter = new Predicate<object>(x => ((RepositoryServer)x).HasMatchingRepository(repositoryFilter.Text));
+            treeView.Items.Filter = new Predicate<object>(x => ((RepositoryServer)((TreeViewItem)x).Tag).HasMatchingRepository(repositoryFilter.Text));
             treeView.Items.Refresh();
         }
     }

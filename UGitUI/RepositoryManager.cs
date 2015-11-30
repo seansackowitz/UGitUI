@@ -92,7 +92,12 @@ namespace UGitUI
             }
         }
 
-        static RepositoryServer AddRepositoryServer(string s)
+        public static void GetDiffs(LibGit2Sharp.Repository repo)
+        {
+            
+        }
+
+        public static RepositoryServer AddRepositoryServer(string s)
         {
             RepositoryServer tmpServer = new RepositoryServer(s);
             RepositoryServer foundServer = Servers.Find(x => x.ItemName == tmpServer.ItemName);

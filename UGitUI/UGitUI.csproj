@@ -153,8 +153,15 @@
     <EmbeddedResource Include="AssemblyLoading\System.Windows.Interactivity.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AssemblyLoading\git2-e0902fb.dll" />
     <EmbeddedResource Include="AssemblyLoading\LibGit2Sharp.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NativeBinaries\amd64\git2-e0902fb.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="NativeBinaries\x86\git2-e0902fb.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

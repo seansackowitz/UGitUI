@@ -42,9 +42,9 @@ namespace UGitUI
 
         public bool HasMatchingRepository(string value)
         {
-            TreeItem.Items.Filter = new Predicate<object>(i => ((Repository)((TreeViewItem)i).Tag).ToString().Contains(value));
+            TreeItem.Items.Filter = new Predicate<object>(i => ((Repository)((TreeViewItem)i).Tag).ToString().ToLower().Contains(value.ToLower()));
             TreeItem.Items.Refresh();
-            return TreeItem.Items.Cast<object>().Where(i => ((Repository)((TreeViewItem)i).Tag).ToString().Contains(value)).Count() > 0;
+            return TreeItem.Items.Cast<object>().Where(i => ((Repository)((TreeViewItem)i).Tag).ToString().ToLower().Contains(value.ToLower())).Count() > 0;
         }
 
         [OnDeserialized]

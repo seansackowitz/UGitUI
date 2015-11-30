@@ -43,6 +43,9 @@ namespace UGitUI
             };
 
             RepositoryManager.LoadDataFile();
+            //RepositoryServer tempS = RepositoryManager.AddRepositoryServer(@"http://git.roadturtlegames.com/Sean/UGitUI.git");
+            //tempS.Add(new Repository("UGitUI", @"D:\Programming\Gitlab\UGitUI\.git"));
+            //RepositoryManager.SaveDataFile();
             refreshTreeView(null, null);
             
             //RepositoryManager.AddRepository(@"Z:\Temporary Programming\GitTesting", @"http://git.roadturtlegames.com/Sean/UGitUI.git", "Sean", "keks49585", null);
@@ -67,9 +70,10 @@ namespace UGitUI
             {
                 Data.Text = "";
                 CurrentRepo = ((Repository)((TreeViewItem)treeView.SelectedItem).Tag);
-                foreach (var item in CurrentRepo.Repo.Index)
+
+                foreach (TreeEntryChanges c in CurrentRepo.Repo.Diff.Compare<TreeChanges>(CurrentRepo.Repo.Head.Tip.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
                 {
-                    Data.Text += item.Path + "\n";
+                    Data.Text += c.Status + " : " + c.Path + "\n";
                 }
             }
         }

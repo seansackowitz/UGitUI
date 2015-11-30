@@ -153,7 +153,9 @@
     <EmbeddedResource Include="AssemblyLoading\System.Windows.Interactivity.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AssemblyLoading\git2-e0902fb.dll" />
+    <EmbeddedResource Include="AssemblyLoading\git2-e0902fb.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="AssemblyLoading\LibGit2Sharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

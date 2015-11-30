@@ -28,6 +28,7 @@
                 </TextBox>
             </AdornerDecorator>
         </Grid>
-        <TreeView Name="treeView" Width="180" Margin="0,64,0,0" HorizontalAlignment="Left" Padding="0" RenderTransformOrigin="0,0" SelectedItemChanged="treeView_SelectedItemChanged" PreviewMouseRightButtonDown="treeView_PreviewMouseRightButtonDown" ContextMenuOpening="treeView_ContextMenuOpening" Background="{DynamicResource WindowTitleColorBrush}"/>
+        <TreeView Name="treeView" Grid.Column="0" Width="180" Margin="0,64,0,0" HorizontalAlignment="Left" Padding="0" RenderTransformOrigin="0,0" SelectedItemChanged="treeView_SelectedItemChanged" PreviewMouseRightButtonDown="treeView_PreviewMouseRightButtonDown" ContextMenuOpening="treeView_ContextMenuOpening" Background="{DynamicResource WindowTitleColorBrush}"/>
+        <TextBlock Name="Data" Grid.Column="1"/>
     </Grid>
 </Controls:MetroWindow>

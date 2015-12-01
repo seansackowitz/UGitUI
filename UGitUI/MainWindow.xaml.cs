@@ -16,6 +16,7 @@ using LibGit2Sharp;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System.IO;
+using System.Diagnostics;
 
 namespace UGitUI
 {
@@ -61,34 +62,6 @@ namespace UGitUI
             }
         }
 
-        private void treeView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-
-        }
-
-        private void treeView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            if (treeView.SelectedItem != null && ((TreeViewItem)treeView.SelectedItem).Tag != null && ((TreeViewItem)treeView.SelectedItem).Tag.GetType() == typeof(Repository))
-            {
-                Data.Text = "";
-                CurrentRepo = ((Repository)((TreeViewItem)treeView.SelectedItem).Tag);
-
-                foreach (var c in CurrentRepo.Repo.Diff.Compare<Patch>(CurrentRepo.Repo.Head.Tip.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
-                {
-                    if (c.Status == ChangeKind.Added || c.Status == ChangeKind.Modified || c.Status == ChangeKind.Deleted)
-                    {
-                        Data.Text += "\n~~~~ Patch file ~~~~\n";
-                        Data.Text += c.Patch.Substring(c.Patch.IndexOf('@')) + "\n";
-                    }
-                }
-            }
-        }
-
         private void button_MouseEnter(object sender, MouseEventArgs e)
         {
             ((Button)e.Source).Foreground = (SolidColorBrush)this.FindResource("toolBarButtonMouseHover");
@@ -114,5 +87,62 @@ namespace UGitUI
             treeView.Items.Filter = new Predicate<object>(x => ((RepositoryServer)((TreeViewItem)x).Tag).HasMatchingRepository(repositoryFilter.Text));
             treeView.Items.Refresh();
         }
+
+
+        #region Treeview ContextMenu
+        static TreeViewItem VisualUpwardSearch(DependencyObject source)
+        {
+            while (source != null && !(source is TreeViewItem))
+                source = VisualTreeHelper.GetParent(source);
+
+            return source as TreeViewItem;
+        }
+
+        private void treeView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem treeViewItem = VisualUpwardSearch(e.OriginalSource as DependencyObject);
+
+            if (treeViewItem != null)
+            {
+                treeViewItem.Focus();
+                e.Handled = true;
+            }
+            else
+            {
+                if (treeView.SelectedItem != null)
+                    ((TreeViewItem)treeView.SelectedItem).IsSelected = false;
+            }
+        }
+
+        private void treeView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            if (treeView.SelectedItem == null)
+                e.Handled = true;
+        }
+
+        private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (treeView.SelectedItem != null && ((TreeViewItem)treeView.SelectedItem).Tag != null && ((TreeViewItem)treeView.SelectedItem).Tag.GetType() == typeof(Repository))
+            {
+                Data.Text = "";
+                CurrentRepo = ((Repository)((TreeViewItem)treeView.SelectedItem).Tag);
+
+                foreach (var c in CurrentRepo.Repo.Diff.Compare<Patch>(CurrentRepo.Repo.Head.Tip.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
+                {
+                    if (c.Status == ChangeKind.Added || c.Status == ChangeKind.Modified || c.Status == ChangeKind.Deleted)
+                    {
+                        Data.Text += "\n~~~~ Patch file ~~~~\n";
+                        Data.Text += c.Patch.Substring(c.Patch.IndexOf('@')) + "\n";
+                    }
+                }
+            }
+        }
+
+        private void OpenExplorer_Click(object sender, RoutedEventArgs e)
+        {
+            if (treeView.SelectedItem != null)
+                Process.Start(((Repository)((TreeViewItem)treeView.SelectedItem).Tag).Repo.Info.WorkingDirectory);
+        }
+        #endregion Treeview ContextMenu
     }
 }

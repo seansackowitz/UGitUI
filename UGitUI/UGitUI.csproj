@@ -87,6 +87,8 @@
       <DependentUpon>AddRepositoryDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataFile.cs" />
+    <Compile Include="DiffFile.cs" />
+    <Compile Include="DiffLineBackgroundRenderer.cs" />
     <Compile Include="IsEnabledConv.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="RepositoryManager.cs" />

@@ -43,11 +43,14 @@ namespace UGitUI
                 treeView.ItemsSource = null;
                 treeView.ItemsSource = RepositoryManager.TreeViewServers;
             };
+            
+            Data.TextArea.TextView.BackgroundRenderers.Add(new DiffLineBackgroundRenderer());
 
             DataFile.LoadDataFile();
             refreshTreeView(null, null);
         }
 
+        #region DragDrop Funtionality
         private void MetroWindow_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -61,7 +64,9 @@ namespace UGitUI
                 }
             }
         }
+        #endregion DragDrop Funtionality
 
+        #region Toolbar Button Events
         private void button_MouseEnter(object sender, MouseEventArgs e)
         {
             ((Button)e.Source).Foreground = (SolidColorBrush)this.FindResource("toolBarButtonMouseHover");
@@ -71,6 +76,7 @@ namespace UGitUI
         {
             ((Button)e.Source).Foreground = (SolidColorBrush)this.FindResource("toolBarButtonMouseLeave");
         }
+        #endregion Toolbar Button Events
 
         private void addRepository_Click(object sender, RoutedEventArgs e)
         {
@@ -88,7 +94,24 @@ namespace UGitUI
             treeView.Items.Refresh();
         }
 
+        private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (treeView.SelectedItem != null && ((TreeViewItem)treeView.SelectedItem).Tag != null && ((TreeViewItem)treeView.SelectedItem).Tag.GetType() == typeof(Repository))
+            {
+                CurrentRepo = ((Repository)((TreeViewItem)treeView.SelectedItem).Tag);
+                ChangeList.Items.Clear();
+                Data.Document = new ICSharpCode.AvalonEdit.Document.TextDocument();
 
+                foreach (var c in CurrentRepo.Repo.Diff.Compare<Patch>(CurrentRepo.Repo.Head.Tip.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
+                {
+                    if (c.Status == ChangeKind.Untracked)
+                        ChangeList.Items.Add(new DiffFile(c.Path, c.Patch.Substring(c.Patch.IndexOf('@')), false));
+                    else if (c.Status == ChangeKind.Added || c.Status == ChangeKind.Modified || c.Status == ChangeKind.Deleted)
+                        ChangeList.Items.Add(new DiffFile(c.Path, c.Patch.Substring(c.Patch.IndexOf('@')), true));
+                }
+            }
+        }
+        
         #region Treeview ContextMenu
         static TreeViewItem VisualUpwardSearch(DependencyObject source)
         {
@@ -120,29 +143,21 @@ namespace UGitUI
                 e.Handled = true;
         }
 
-        private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            if (treeView.SelectedItem != null && ((TreeViewItem)treeView.SelectedItem).Tag != null && ((TreeViewItem)treeView.SelectedItem).Tag.GetType() == typeof(Repository))
-            {
-                Data.Text = "";
-                CurrentRepo = ((Repository)((TreeViewItem)treeView.SelectedItem).Tag);
-
-                foreach (var c in CurrentRepo.Repo.Diff.Compare<Patch>(CurrentRepo.Repo.Head.Tip.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
-                {
-                    if (c.Status == ChangeKind.Added || c.Status == ChangeKind.Modified || c.Status == ChangeKind.Deleted)
-                    {
-                        Data.Text += "\n~~~~ Patch file ~~~~\n";
-                        Data.Text += c.Patch.Substring(c.Patch.IndexOf('@')) + "\n";
-                    }
-                }
-            }
-        }
-
         private void OpenExplorer_Click(object sender, RoutedEventArgs e)
         {
             if (treeView.SelectedItem != null)
                 Process.Start(((Repository)((TreeViewItem)treeView.SelectedItem).Tag).Repo.Info.WorkingDirectory);
         }
         #endregion Treeview ContextMenu
+
+        private void ChangeList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ChangeList.SelectedItem == null || ChangeList.SelectedItem.GetType() != typeof(DiffFile))
+                return;
+
+            DiffFile dFile = (DiffFile)ChangeList.SelectedItem;
+            Data.Document = new ICSharpCode.AvalonEdit.Document.TextDocument();
+            Data.Document.Text = dFile.Diff;
+        }
     }
 }

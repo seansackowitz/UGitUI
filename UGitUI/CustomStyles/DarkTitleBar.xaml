@@ -1,25 +1,25 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:UGitUI">
+                    xmlns:local="clr-namespace:UGitUI" xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls">
     <!-- Shows on click of buttons -->
     <SolidColorBrush x:Key="HighlightBrush" Color="#FF101010" />
     <!-- The title-bar's color -->
     <SolidColorBrush x:Key="WindowTitleColorBrush" Color="#FF252525" />
 
     <SolidColorBrush x:Key="titleBarButtonMouseLeave" Color="#FFC2C2C2" />
-    
+
     <SolidColorBrush x:Key="titleBarButtonMouseHover" Color="#FFDCDCDC" />
 
     <SolidColorBrush x:Key="toolBarButtonMouseLeave" Color="#FF767676" />
 
     <SolidColorBrush x:Key="toolBarButtonMouseHover" Color="#FFA0A0A0" />
-    
+
     <SolidColorBrush x:Key="toolBarBackColor" Color="#FF444444" />
 
     <SolidColorBrush x:Key="blockingPanelColor" Color="#CC232323" />
 
     <SolidColorBrush x:Key="settingsPanelColor" Color="#FF0F0F0F" />
-    
+
     <SolidColorBrush x:Key="textColor" Color="#FFF1F1F1" />
 
     <SolidColorBrush x:Key="lineNumbersColor" Color="#FF2B91AF" />

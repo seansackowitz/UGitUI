@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using LibGit2Sharp;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using System.IO;
 
 namespace UGitUI
 {
@@ -42,11 +43,22 @@ namespace UGitUI
                 treeView.ItemsSource = RepositoryManager.TreeViewServers;
             };
 
-            RepositoryManager.LoadDataFile();
-            //RepositoryServer tempS = RepositoryManager.AddRepositoryServer(@"http://git.roadturtlegames.com/Sean/UGitUI.git");
-            //tempS.Add(new Repository("UGitUI", @"E:\Programming\Gitlab\UGitUI\.git"));
-            //RepositoryManager.SaveDataFile();
+            DataFile.LoadDataFile();
             refreshTreeView(null, null);
+        }
+
+        private void MetroWindow_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                foreach (string s in files)
+                {
+                    if ((File.GetAttributes(s) & FileAttributes.Directory) == FileAttributes.Directory)
+                        RepositoryManager.AddPreClonedRepository(s);
+                }
+            }
         }
 
         private void treeView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -61,21 +73,18 @@ namespace UGitUI
 
         private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (treeView.SelectedItem != null)
+            if (treeView.SelectedItem != null && ((TreeViewItem)treeView.SelectedItem).Tag != null && ((TreeViewItem)treeView.SelectedItem).Tag.GetType() == typeof(Repository))
             {
                 Data.Text = "";
                 CurrentRepo = ((Repository)((TreeViewItem)treeView.SelectedItem).Tag);
 
-                foreach (TreeEntryChanges c in CurrentRepo.Repo.Diff.Compare<TreeChanges>(CurrentRepo.Repo.Head.Tip.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
+                foreach (var c in CurrentRepo.Repo.Diff.Compare<Patch>(CurrentRepo.Repo.Head.Tip.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
                 {
-                    Data.Text += c.Status + " : " + c.Path + "\n";
-                }
-
-                Data.Text += "\n\n";
-
-                foreach (var item in CurrentRepo.Repo.ObjectDatabase)
-                {
-                    Data.Text += item.Id + "\n";
+                    if (c.Status == ChangeKind.Added || c.Status == ChangeKind.Modified || c.Status == ChangeKind.Deleted)
+                    {
+                        Data.Text += "\n~~~~ Patch file ~~~~\n";
+                        Data.Text += c.Patch.Substring(c.Patch.IndexOf('@')) + "\n";
+                    }
                 }
             }
         }

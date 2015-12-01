@@ -30,6 +30,9 @@ namespace UGitUI
         
         public void Add(Repository item)
         {
+            if (Repos.Where(i => item.Repo.Info.WorkingDirectory == i.Repo.Info.WorkingDirectory).Count() > 0)
+                return;
+
             Repos.Add(item);
             TreeItem.Items.Add(item.TreeItem);
         }

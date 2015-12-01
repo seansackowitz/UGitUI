@@ -19,6 +19,18 @@ namespace UGitUI
 
         static Thread workerThread;
 
+        public static void AddPreClonedRepository(string directory)
+        {
+            if (!LibGit2Sharp.Repository.IsValid(directory))
+                return;
+
+            Repository repo = new Repository(Path.GetFileName(directory), directory);
+            AddRepositoryServer(repo.Repo.Network.Remotes["origin"].Url).Add(repo);
+
+            DataFile.SaveDataFile();
+            MainWindow.Instance.refreshTreeView(null, null);
+        }
+
         public static void AddRepository(string directory, string url, string username, string password, AddRepositoryDialog dialog)
         {
             workerThread = new Thread(Clone);
@@ -70,7 +82,7 @@ namespace UGitUI
                 if (dlg != null && dlg.IsVisible != false)
                     dlg.Dispatcher.Invoke(new Action(() => dlg.EndDialog(null, null)));
 
-                SaveDataFile();
+                DataFile.SaveDataFile();
             }
             catch (LibGit2SharpException e)
             {
@@ -90,11 +102,6 @@ namespace UGitUI
                 else
                     throw new NotImplementedException(e.Message);
             }
-        }
-
-        public static void GetDiffs(LibGit2Sharp.Repository repo)
-        {
-            
         }
 
         public static RepositoryServer AddRepositoryServer(string s)
@@ -129,32 +136,6 @@ namespace UGitUI
             }
 
             Directory.Delete(targetDir, false);
-        }
-
-        public static void SaveDataFile()
-        {
-            try
-            {
-                using (Stream stream = File.Open("data.bin", FileMode.Create))
-                {
-                    BinaryFormatter bin = new BinaryFormatter();
-                    bin.Serialize(stream, Servers);
-                }
-            }
-            catch (IOException) { }
-        }
-
-        public static void LoadDataFile()
-        {
-            try
-            {
-                using (Stream stream = File.Open("data.bin", FileMode.Open))
-                {
-                    BinaryFormatter bin = new BinaryFormatter();
-                    Servers = (List<RepositoryServer>)bin.Deserialize(stream);
-                }
-            }
-            catch (IOException) { }
         }
     }
 }

@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UGitUI"
         mc:Ignorable="d"
-        Title="Universal Git UI" Height="720" Width="1280" TitleCaps="False" Background="{DynamicResource WindowTitleColorBrush}" Loaded="MetroWindow_Loaded">
+        Title="Universal Git UI" Height="720" Width="1280" TitleCaps="False" Background="{DynamicResource WindowTitleColorBrush}" Loaded="MetroWindow_Loaded" AllowDrop="True" Drop="MetroWindow_Drop">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="180*"/>
@@ -29,6 +29,8 @@
             </AdornerDecorator>
         </Grid>
         <TreeView Name="treeView" Grid.Column="0" Width="180" Margin="0,64,0,0" HorizontalAlignment="Left" Padding="0" RenderTransformOrigin="0,0" SelectedItemChanged="treeView_SelectedItemChanged" PreviewMouseRightButtonDown="treeView_PreviewMouseRightButtonDown" ContextMenuOpening="treeView_ContextMenuOpening" Background="{DynamicResource WindowTitleColorBrush}"/>
-        <TextBlock Name="Data" Grid.Column="1"/>
+        <ScrollViewer Grid.Column="1">
+            <TextBlock Name="Data"/>
+        </ScrollViewer>
     </Grid>
 </Controls:MetroWindow>

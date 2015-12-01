@@ -86,6 +86,7 @@
     <Compile Include="AddRepositoryDialog.xaml.cs">
       <DependentUpon>AddRepositoryDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataFile.cs" />
     <Compile Include="IsEnabledConv.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="RepositoryManager.cs" />

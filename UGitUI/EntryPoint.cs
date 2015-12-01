@@ -15,7 +15,7 @@ namespace UGitUI
         {
             //Resolves any assembly not found errors. This allows us to compile the dlls into the project.
             AppDomain.CurrentDomain.AssemblyResolve += (sender, args) => {
-                string resourceName = "Code_Snapshot.AssemblyLoading." + new AssemblyName(args.Name).Name + ".dll";
+                string resourceName = "UGitUI.AssemblyLoading." + new AssemblyName(args.Name).Name + ".dll";
                 using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
                 {
                     byte[] assemblyData = new byte[stream.Length];

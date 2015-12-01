@@ -1,4 +1,4 @@
-﻿<Controls:MetroWindow x:Class="UGitUI.MainWindow"
+﻿<Controls:MetroWindow xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"  x:Class="UGitUI.MainWindow"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,8 +6,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UGitUI"
         mc:Ignorable="d"
-        Title="Code Snapshot" Height="720" Width="1280" TitleCaps="False" Background="{DynamicResource WindowTitleColorBrush}" Loaded="MetroWindow_Loaded">
+        Title="Universal Git UI" Height="720" Width="1280" TitleCaps="False" Background="{DynamicResource WindowTitleColorBrush}" Loaded="MetroWindow_Loaded" AllowDrop="True" Drop="MetroWindow_Drop">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="1100*"/>
+        </Grid.ColumnDefinitions>
+        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Width="180" Background="{DynamicResource toolBarBackColor}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Button Name="addRepository" Grid.Row="0" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" Foreground="{DynamicResource toolBarButtonMouseLeave}" MouseEnter="button_MouseEnter" MouseLeave="button_MouseLeave" HorizontalAlignment="Left" Margin="10,1,1,0" BorderThickness="0" VerticalAlignment="Center" Click="addRepository_Click">
+                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M75 0 V75 H0 V125 H75 V200 H125 V125 H200 V75 H125 V0 H75 z" Stretch="Fill"/>
+            </Button>
+            <AdornerDecorator Grid.Row="1" Height="26" VerticalAlignment="Center" Margin="10,0">
+                <TextBox Name="repositoryFilter" TextChanged="repositoryFilter_TextChanged">
+                    <local:WatermarkService.Watermark>
+                        <TextBox Text="Filter Repositories"/>
+                    </local:WatermarkService.Watermark>
+                </TextBox>
+            </AdornerDecorator>
+        </Grid>
+        <TreeView Name="treeView" Grid.Column="0" Width="180" Margin="0,64,0,0" HorizontalAlignment="Left" Padding="0" RenderTransformOrigin="0,0" SelectedItemChanged="treeView_SelectedItemChanged" PreviewMouseRightButtonDown="treeView_PreviewMouseRightButtonDown" Background="{DynamicResource WindowTitleColorBrush}" ContextMenuOpening="treeView_ContextMenuOpening">
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="OpenExplorer" Header="Open in Explorer" Click="OpenExplorer_Click"/>
+                </ContextMenu>
+            </TreeView.ContextMenu>
+        </TreeView>
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350*"/>
+                <ColumnDefinition Width="750*"/>
+            </Grid.ColumnDefinitions>
+            <SelectiveScrollingGrid />
+            <ListBox Name="ChangeList" Grid.Column="0" SelectionChanged="ChangeList_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <HierarchicalDataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="" IsChecked="{Binding Selected}"/>
+                            <TextBlock Text="{Binding Directory}"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <avalonedit:TextEditor Name="Data" Grid.Column="1" IsReadOnly="True" FontFamily="Consolas" FontSize="10pt" Foreground="{DynamicResource textColor}"/>
+        </Grid>
     </Grid>
 </Controls:MetroWindow>

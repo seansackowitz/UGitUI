@@ -32,6 +32,7 @@
             <TreeView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Name="OpenExplorer" Header="Open in Explorer" Click="OpenExplorer_Click"/>
+                    <MenuItem Name="RemoveRepository" Header="Remove" Click="RemoveRepository_Click"/>
                 </ContextMenu>
             </TreeView.ContextMenu>
         </TreeView>
@@ -40,7 +41,6 @@
                 <ColumnDefinition Width="350*"/>
                 <ColumnDefinition Width="750*"/>
             </Grid.ColumnDefinitions>
-            <SelectiveScrollingGrid />
             <ListBox Name="ChangeList" Grid.Column="0" SelectionChanged="ChangeList_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <HierarchicalDataTemplate>
@@ -51,7 +51,7 @@
                     </HierarchicalDataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <avalonedit:TextEditor Name="Data" Grid.Column="1" IsReadOnly="True" FontFamily="Consolas" FontSize="10pt" Foreground="{DynamicResource textColor}"/>
+            <avalonedit:TextEditor Name="Data" Grid.Column="1" IsReadOnly="True" FontFamily="Consolas" FontSize="10pt" Foreground="{DynamicResource textColor}" HorizontalScrollBarVisibility="Auto"/>
         </Grid>
     </Grid>
 </Controls:MetroWindow>

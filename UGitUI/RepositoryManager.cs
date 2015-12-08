@@ -117,6 +117,22 @@ namespace UGitUI
                 return foundServer;
         }
 
+        public static void RemoveRepositoryServer(RepositoryServer rs)
+        {
+            Servers.Remove(rs);
+            TreeViewServers.Remove(rs.TreeItem);
+        }
+
+        public static void RemoveRepository(Repository tag)
+        {
+            RepositoryServer rs = Servers.Find(s => s.Repos.Contains(tag));
+            if (rs == null)
+                return;
+            rs.Remove(tag);
+            if (rs.Repos.Count == 0)
+                RemoveRepositoryServer(rs);
+        }
+
         public static void DeleteDirectory(string targetDir)
         {
             File.SetAttributes(targetDir, FileAttributes.Normal);

@@ -149,6 +149,7 @@ namespace UGitUI
             {
                 RepositoryManager.RemoveRepository((Repository)((TreeViewItem)treeView.SelectedItem).Tag);
                 refreshTreeView(null, null);
+                DataFile.SaveDataFile();
             }
         }
         #endregion Treeview ContextMenu

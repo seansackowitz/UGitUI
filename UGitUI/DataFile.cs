@@ -20,7 +20,7 @@ namespace UGitUI
                     bin.Serialize(stream, RepositoryManager.Servers);
                 }
             }
-            catch (IOException) { }
+            catch { }
         }
 
         public static void LoadDataFile()
@@ -33,7 +33,7 @@ namespace UGitUI
                     RepositoryManager.Servers = (List<RepositoryServer>)bin.Deserialize(stream);
                 }
             }
-            catch (IOException) { }
+            catch { }
         }
     }
 }

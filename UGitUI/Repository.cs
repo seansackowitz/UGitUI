@@ -14,7 +14,11 @@ namespace UGitUI
     {
         public string ItemName;
         public string Directory = "";
-        
+        public bool IsValid { get; private set; }
+        public bool StorePassword;
+        public string Username = @"";
+        public string Password = @"";
+
         [NonSerialized]
         public LibGit2Sharp.Repository Repo;
         [NonSerialized]
@@ -29,6 +33,7 @@ namespace UGitUI
             TreeItem.Tag = this;
             TreeItem.Header = ToString();
             TreeItem.Style = (System.Windows.Style)TreeItem.FindResource("RepositoryStyle");
+            TreeItem.ToolTip = ToString();
         }
 
         [OnDeserialized]
@@ -38,10 +43,10 @@ namespace UGitUI
             TreeItem.Tag = this;
             TreeItem.Header = ToString();
             TreeItem.Style = (System.Windows.Style)TreeItem.FindResource("RepositoryStyle");
-            if (LibGit2Sharp.Repository.IsValid(Directory))
+            TreeItem.ToolTip = ToString();
+            IsValid = LibGit2Sharp.Repository.IsValid(Directory);
+            if (IsValid)
                 Repo = new LibGit2Sharp.Repository(Directory);
-            else
-                TreeItem.Header = "NotFound";
         }
         
         public override string ToString()

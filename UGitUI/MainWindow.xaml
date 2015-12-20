@@ -28,7 +28,7 @@
                 </TextBox>
             </AdornerDecorator>
         </Grid>
-        <TreeView Name="treeView" Grid.Column="0" Width="180" Margin="0,64,0,0" HorizontalAlignment="Left" Padding="0" RenderTransformOrigin="0,0" SelectedItemChanged="treeView_SelectedItemChanged" PreviewMouseRightButtonDown="treeView_PreviewMouseRightButtonDown" Background="{DynamicResource WindowTitleColorBrush}" ContextMenuOpening="treeView_ContextMenuOpening">
+        <TreeView Name="treeView" Grid.Column="0" Width="180" Margin="0,64,0,0" HorizontalAlignment="Left" Padding="0" RenderTransformOrigin="0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedItemChanged="treeView_SelectedItemChanged" PreviewMouseRightButtonDown="treeView_PreviewMouseRightButtonDown" Background="{DynamicResource WindowTitleColorBrush}" ContextMenuOpening="treeView_ContextMenuOpening">
             <TreeView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Name="OpenExplorer" Header="Open in Explorer" Click="OpenExplorer_Click"/>

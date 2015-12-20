@@ -26,6 +26,7 @@ namespace UGitUI
             TreeItem.Focusable = false;
             TreeItem.Header = ToString();
             TreeItem.Style = (System.Windows.Style)TreeItem.FindResource("RepositoryServerStyle");
+            TreeItem.ToolTip = ToString();
         }
         
         public void Add(Repository item)
@@ -58,6 +59,7 @@ namespace UGitUI
             TreeItem.Focusable = false;
             TreeItem.Header = ToString();
             TreeItem.Style = (System.Windows.Style)TreeItem.FindResource("RepositoryServerStyle");
+            TreeItem.ToolTip = ToString();
 
             foreach (Repository repo in Repos)
                 TreeItem.Items.Add(repo.TreeItem);

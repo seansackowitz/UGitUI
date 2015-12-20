@@ -93,6 +93,12 @@ namespace UGitUI
             if (treeView.SelectedItem != null && ((TreeViewItem)treeView.SelectedItem).Tag != null && ((TreeViewItem)treeView.SelectedItem).Tag.GetType() == typeof(Repository))
             {
                 CurrentRepo = ((Repository)((TreeViewItem)treeView.SelectedItem).Tag);
+                if (!CurrentRepo.IsValid)
+                {
+                    NotValidMessage();
+                    return;
+                }
+
                 ChangeList.Items.Clear();
                 Data.Document = new ICSharpCode.AvalonEdit.Document.TextDocument();
 
@@ -162,6 +168,11 @@ namespace UGitUI
             DiffFile dFile = (DiffFile)ChangeList.SelectedItem;
             Data.Document = new ICSharpCode.AvalonEdit.Document.TextDocument();
             Data.Document.Text = dFile.Diff;
+        }
+
+        private void NotValidMessage()
+        {
+
         }
     }
 }

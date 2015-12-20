@@ -5,13 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using LibGit2Sharp;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -25,7 +20,6 @@ namespace UGitUI
         public static MainWindow Instance;
 
         public RoutedEventHandler refreshTreeView;
-
         public Repository CurrentRepo;
 
         public MainWindow()
@@ -147,6 +141,16 @@ namespace UGitUI
         {
             if (treeView.SelectedItem != null)
                 Process.Start(((Repository)((TreeViewItem)treeView.SelectedItem).Tag).Repo.Info.WorkingDirectory);
+        }
+
+        private void RemoveRepository_Click(object sender, RoutedEventArgs e)
+        {
+            if (treeView.SelectedItem != null)
+            {
+                RepositoryManager.RemoveRepository((Repository)((TreeViewItem)treeView.SelectedItem).Tag);
+                refreshTreeView(null, null);
+                DataFile.SaveDataFile();
+            }
         }
         #endregion Treeview ContextMenu
 

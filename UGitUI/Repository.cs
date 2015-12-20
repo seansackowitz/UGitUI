@@ -38,7 +38,10 @@ namespace UGitUI
             TreeItem.Tag = this;
             TreeItem.Header = ToString();
             TreeItem.Style = (System.Windows.Style)TreeItem.FindResource("RepositoryStyle");
-            Repo = new LibGit2Sharp.Repository(Directory);
+            if (LibGit2Sharp.Repository.IsValid(Directory))
+                Repo = new LibGit2Sharp.Repository(Directory);
+            else
+                TreeItem.Header = "NotFound";
         }
         
         public override string ToString()

@@ -105,9 +105,13 @@ namespace UGitUI
                 foreach (var c in CurrentRepo.Repo.Diff.Compare<Patch>(CurrentRepo.Repo.Head.Tip.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
                 {
                     if (c.Status == ChangeKind.Untracked)
-                        ChangeList.Items.Add(new DiffFile(c.Path, c.Patch.Substring(c.Patch.IndexOf('@')), false));
+                    {
+                        ChangeList.Items.Add(new DiffFile(c.Path, c.Patch.Substring(c.IsBinaryComparison ? 0 : c.Patch.IndexOf('@')), false));
+                    }
                     else if (c.Status == ChangeKind.Added || c.Status == ChangeKind.Modified || c.Status == ChangeKind.Deleted)
-                        ChangeList.Items.Add(new DiffFile(c.Path, c.Patch.Substring(c.Patch.IndexOf('@')), true));
+                    {
+                        ChangeList.Items.Add(new DiffFile(c.Path, c.Patch.Substring(c.IsBinaryComparison ? 0 : c.Patch.IndexOf('@')), true));
+                    }
                 }
             }
         }
